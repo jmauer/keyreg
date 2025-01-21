@@ -1,0 +1,55 @@
+<div class="grid">
+    <div class="col-12">
+        <p-toast></p-toast>
+        <div class="card">
+                <h4>{{ 'profile.profileHeader' | translate }}</h4>
+                    <p>{{ 'profile.personalnummer' | translate }}: {{ user.PersonalNummer}}</p>
+                    <p>{{ 'profile.firstname' | translate }}: {{ user.FirstName}}</p>
+                    <p>{{ 'profile.surname' | translate }}: {{ user.LastName}}</p>
+        
+        </div>
+
+        <div class="card">
+            <h4>{{ 'profile.accountHeader' | translate }}</h4>
+            <p>{{ 'user.email' | translate }}: {{ user.EMail}}</p>  
+            <button pButton pRipple label="{{ 'profile.changePW' | translate }}" icon="pi pi-pencil" class="p-button-help mr-2" (click)="changePW()"></button>
+    </div>
+
+        <div class="card">
+            <h4>{{ 'profile.privateTokenHeader' | translate }}</h4>
+            <div><p-inplace>
+                
+                <ng-template pTemplate="display">
+                    <span class="pi pi-lock" style="vertical-align: middle"></span>
+                    <span class="ml-2">{{ 'profile.show' | translate }}</span>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <span>
+                        {{ user.Token }}
+                    </span>
+                </ng-template>
+            </p-inplace></div>
+            <div class="mt-4">
+                <b>{{ 'profile.tokenSecret' | translate }}</b>
+            </div>
+        </div>
+        <p-dialog [(visible)]="showPWDialog" [style]="{width: '450px'}" header="{{ 'profile.changePW' | translate }}" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="name">{{ 'profile.password' | translate }}</label>
+                    <input type="password" pInputText id="name" [(ngModel)]="newPassword" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.ID">ID wird verlangt.</small>
+                </div>
+                <div class="field">
+                    <label for="name">{{ 'profile.confirm' | translate }}</label>
+                    <input type="password" pInputText id="name" [(ngModel)]="confirmPassword" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.ID">ID wird verlangt.</small>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="{{ 'header.cancel' | translate }}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="{{ 'header.save' | translate }}" icon="pi pi-check" class="p-button-text" (click)="confirmPW()"></button>
+            </ng-template>
+        </p-dialog>
+    </div> 
+</div>

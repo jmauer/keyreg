@@ -1,0 +1,52 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>Tags nachbestellen</h4>
+            <p-steps [model]="items" [readonly]="false"></p-steps>
+            <div class="mt-2">
+                <p-card>
+                    <ng-template pTemplate="title"> Personal Information </ng-template>
+                    <ng-template pTemplate="subtitle"> Enter your personal information </ng-template>
+                    <ng-template pTemplate="content">
+                        <div class="p-fluid">
+                            <div class="field">
+                                <label for="firstname">Firstname</label>
+                                <input
+                                    
+                                    id="firstname"
+                                    type="text"
+                                    required
+                                    pInputText
+                                    [(ngModel)]="firstname"
+                                    [ngClass]="{ 'ng-dirty': (firstname.invalid && submitted) || (firstname.dirty && firstname.invalid) }"
+                                />
+                                <small *ngIf="(firstname.invalid && submitted) || (firstname.dirty && firstname.invalid)" class="p-error">Firstname is required.</small>
+                            </div>
+                            <div class="field">
+                                <label for="lastname">Lastname</label>
+                                <input  id="lastname" type="text" required pInputText [(ngModel)]="lastname" [ngClass]="{ 'ng-dirty': (lastname.invalid && submitted) || (lastname.dirty && lastname.invalid) }" />
+                                <small class="p-error" *ngIf="(lastname.invalid && submitted) || (lastname.dirty && lastname.invalid)">Lastname is required.</small>
+                            </div>
+                            <div class="field">
+                                <label for="email">Email</label>
+                                <input  id="email" type="text" required pInputText [(ngModel)]="email" [ngClass]="{ 'ng-dirty': (email.invalid && submitted) || (email.dirty && email.invalid) }" />
+                                <small class="p-error" *ngIf="(email.invalid && submitted) || (email.dirty && email.invalid)">email is required.</small>
+                            </div>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="footer">
+                        <div class="grid grid-nogutter justify-content-end">
+                            <p-button label="Next" (onClick)="nextPage()" icon="pi pi-angle-right" iconPos="right"></p-button>
+                        </div>
+                    </ng-template>
+                </p-card>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <h4>Meine Produkte</h4>
+            <p>Hier stehen Informationen</p>
+        </div>
+    </div>
+</div>

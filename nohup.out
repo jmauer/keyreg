@@ -1,0 +1,56 @@
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues. You might need to use "--disable-host-check" if that's the
+case.
+    
+- Generating browser application bundles (phase: setup)...
+✔ Browser application bundle generation complete.
+
+Initial Chunk Files                                                                                     | Names                                              |  Raw Size
+vendor.js                                                                                               | vendor                                             |   3.14 MB |
+styles.css, styles.js                                                                                   | styles                                             | 700.34 kB |
+polyfills.js                                                                                            | polyfills                                          | 333.18 kB |
+main.js                                                                                                 | main                                               | 124.97 kB |
+scripts.js                                                                                              | scripts                                            |  58.77 kB |
+runtime.js                                                                                              | runtime                                            |  12.63 kB |
+
+| Initial Total                                      |   4.35 MB
+
+Lazy Chunk Files                                                                                        | Names                                              |  Raw Size
+default-node_modules_primeng_fesm2022_primeng-table_mjs.js                                              | demo-components-dashboard-dashboard-module         |   1.26 MB |
+default-node_modules_primeng_fesm2022_primeng-chart_mjs-node_modules_primeng_fesm2022_primeng-7fc5d0.js | demo-components-dashboard-dashboard-module         | 480.52 kB |
+default-node_modules_primeng_fesm2022_primeng-dialog_mjs-node_modules_primeng_fesm2022_primen-490df3.js | crud-crud-module                                   | 440.07 kB |
+src_app_demo_components_dashboard_dashboard_module_ts.js                                                | demo-components-dashboard-dashboard-module         | 157.18 kB |
+src_app_demo_components_landing_landing_module_ts.js                                                    | demo-components-landing-landing-module             |  94.05 kB |
+default-node_modules_primeng_fesm2022_primeng-password_mjs.js                                           | users-users-module                                 |  89.33 kB |
+src_app_demo_components_pages_crud_crud_module_ts.js                                                    | crud-crud-module                                   |  84.73 kB |
+src_app_demo_components_pages_timeline_timelinedemo_module_ts.js                                        | timeline-timelinedemo-module                       |  57.78 kB |
+src_app_demo_components_pages_users_users_module_ts.js                                                  | users-users-module                                 |  54.70 kB |
+default-node_modules_primeng_fesm2022_primeng-breadcrumb_mjs.js                                         | demo-components-documentation-documentation-module |  51.82 kB |
+default-node_modules_primeng_fesm2022_primeng-icons-chevronright_mjs-node_modules_primeng_fes-ac54d5.js | demo-components-dashboard-dashboard-module         |  38.92 kB |
+default-node_modules_primeng_fesm2022_primeng-checkbox_mjs.js                                           | login-login-module                                 |  34.20 kB |
+src_app_demo_components_auth_login_login_module_ts.js                                                   | login-login-module                                 |  16.56 kB |
+src_app_demo_components_auth_register_register_module_ts.js                                             | register-register-module                           |  13.67 kB |
+src_app_demo_components_utilities_utilities_module_ts.js                                                | demo-components-utilities-utilities-module         |   8.90 kB |
+src_app_demo_components_auth_access_access_module_ts.js                                                 | access-access-module                               |   8.11 kB |
+src_app_demo_components_auth_error_error_module_ts.js                                                   | error-error-module                                 |   8.01 kB |
+src_app_demo_components_documentation_documentation_module_ts.js                                        | demo-components-documentation-documentation-module |   7.59 kB |
+src_app_demo_components_pages_pages_module_ts.js                                                        | demo-components-pages-pages-module                 |   6.86 kB |
+src_app_demo_components_pages_downloads_downloads_module_ts.js                                          | downloads-downloads-module                         |   5.97 kB |
+src_app_demo_components_pages_empty_emptydemo_module_ts.js                                              | empty-emptydemo-module                             |   5.68 kB |
+src_app_demo_components_pages_contact_contact_module_ts.js                                              | contact-contact-module                             |   5.63 kB |
+src_app_demo_components_pages_orders_orders_module_ts.js                                                | orders-orders-module                               |   5.57 kB |
+src_app_demo_components_pages_settings_settings_module_ts.js                                            | settings-settings-module                           |   5.45 kB |
+src_app_demo_components_pages_profile_profile_module_ts.js                                              | profile-profile-module                             |   5.39 kB |
+src_app_demo_components_auth_auth_module_ts.js                                                          | demo-components-auth-auth-module                   |   4.79 kB |
+
+Build at: 2023-10-18T13:09:50.604Z - Hash: 4a5a729f1985c404 - Time: 14372ms
+
+** Angular Live Development Server is listening on 0.0.0.0:4200, open your browser on http://localhost:4200/ **
+
+
+✔ Compiled successfully.

@@ -1,0 +1,249 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="{{ 'header.new' | translate }}" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+                        <!-- <button pButton pRipple label="Löschen" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button> -->
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
+                    <button pButton pRipple label="{{ 'header.export' | translate }}" icon="pi pi-upload" class="p-button-help" (click)="downloadData()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table 
+  #mytable 
+  [value]="items" 
+  [columns]="cols" 
+  responsiveLayout="scroll" 
+  [rows]="10" 
+  [paginator]="true" 
+  [rowsPerPageOptions]="[10,20,30]" 
+  [showCurrentPageReport]="true" 
+  currentPageReportTemplate="{{ 'footer.showing' | translate }} {first} {{ 'footer.to' | translate }} {last} {{ 'footer.of' | translate }} {totalRecords} {{ 'footer.entries' | translate }}" 
+  selectionMode="multiple" 
+  [rowHover]="true" 
+  dataKey="id"
+  [globalFilterFields]="globalFilterFields">
+  <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">{{ 'object.header' | translate }}</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Suchen..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th> -->
+                       
+                        <th >{{ 'object.keyNumber' | translate }} </th>
+                        <!-- <th >{{ 'object.LastCheckedDate' | translate }} </th> -->
+                        <th>{{ 'object.place' | translate }}</th>
+                        <th >{{ 'object.street' | translate }} </th>
+                        <th >{{ 'object.name' | translate }} </th>
+                        <th>{{  'menu.keychain' | translate  }}</th>
+                        <th>{{ 'header.checks' | translate }}</th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <!-- <td>
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </td> -->
+                  <!-- <td>      <td style="width:14%; min-width:10rem;" [routerLink]="['/pages/crud/', item.ID]"><span class="p-column-title">ID</span>
+                            {{  item.ID  }}
+                        </td> </td> -->
+                        <td style="width:8%; min-width:7rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">ExaminationDate</span>
+                            
+                            {{item.Number}}
+                        </td>
+                        <td style="width:10%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">LastCheckedDate</span>
+                            {{item.City}}
+                        </td>
+                        <td style="width:36%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">Category</span>
+                            {{item.Street + ' ' + item.HouseNumber}}
+                        </td>
+                        <td style="width:20%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">GroupName</span>
+                            {{item.Name}}
+                        </td>
+                        <td style="width:16%; min-width:7rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]"><span class="p-column-title">Keychain</span>
+                        {{item.kName}}
+                    </td>
+                        <td style="width:16%; min-width:7rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">GroupName</span>
+                            {{keyBorrowed(item)}}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editProduct(item)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteProduct(item)"></button>
+                                <!-- <button pButton pRipple icon="pi pi-arrow-up" class="p-button-rounded p-button-help" (click)="deleteProduct(item)"></button> -->
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                
+            </p-table>
+        </div>
+
+        <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="{{ 'header.objects' | translate }}" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <!-- <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="product.image"> -->
+                <div class="field">
+                    <label for="name">{{ 'object.id' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.ID" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+
+                </div>
+                <div class="field">
+                    <label for="name">{{ 'object.keyNumber' | translate }}</label>
+                    <input type="text" pInputText id="keyNumber" [(ngModel)]="item.Number"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    
+                </div>
+                <div class="field">
+                    <label for="description">{{ 'object.place' | translate }}</label>
+                    <input type="text" pInputText id="fuhrerscheinnummer" [(ngModel)]="item.City"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+
+                </div>
+                <div class="field">
+                    <label for="name">{{ 'object.street' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.Street"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+
+                </div>
+                <div class="field">
+                    <label for="name">{{ 'object.streetNumber' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.HouseNumber"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+
+                </div>
+                <div class="field">
+                    <label for="description">{{ 'object.details' | translate }}</label>
+                    <textarea id="einschrankungen" pInputTextarea [(ngModel)]="item.Misc"  rows="3" cols="20"></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="name">{{ 'object.name' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.Name"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+
+                </div>
+
+                <div class="field">
+                    <label for="name">{{ 'object.brand' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.Batch"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+
+                </div>
+
+                <div class="field">
+                    <label for="name">{{ 'object.borrowTime' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.LoanPeriod"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+
+                </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="{{ 'header.cancel' | translate }}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="{{ 'header.save' | translate }}" icon="pi pi-check" class="p-button-text" (click)="createItem()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteProductDialog" header="{{ 'header.confirm' | translate }}" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="item">{{ 'object.deleteQuestion' | translate }} <b>{{  item.Number  }}</b></span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'header.no' | translate }}" (click)="deleteProductDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'header.yes' | translate }}" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteProductsDialog" header="{{ 'header.confirm' | translate }}" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Are you sure you want to delete selected products?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteProductsDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="editProductDialog" [style]="{width: '450px'}" header="{{ 'header.objects' | translate }}" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+
+                <div class="field">
+                    <label for="name">{{ 'object.id' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.ID" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}" disabled/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.ID">ID wird verlangt.</small>
+                </div>
+                <div class="field">
+                    <label for="name">{{ 'object.keyNumber' | translate }}</label>
+                    <input type="text" pInputText id="keyNumber" [(ngModel)]="item.Number" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.ID">ID wird verlangt.</small>
+                </div>
+                <div class="field">
+                    <label for="description">{{ 'object.place' | translate }}</label>
+                    <input type="text" pInputText id="fuhrerscheinnummer" [(ngModel)]="item.City" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !fuhrerscheinnummer">Führerscheinnummer wird verlangt.</small>
+                </div>
+                <div class="field">
+                    <label for="name">{{ 'object.street' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.Street" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.ID">ID wird verlangt.</small>
+                </div>
+                <div class="field">
+                    <label for="name">{{ 'object.streetNumber' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.HouseNumber" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.ID">ID wird verlangt.</small>
+                </div>
+                <div class="field">
+                    <label for="description">{{ 'object.details' | translate }}</label>
+                    <textarea id="einschrankungen" pInputTextarea [(ngModel)]="item.Misc" required rows="3" cols="20"></textarea>
+                </div>
+
+                <div class="field">
+                    <label for="name">{{ 'object.name' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.Name" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.ID">ID wird verlangt.</small>
+                </div>
+
+                <div class="field">
+                    <label for="name">{{ 'object.brand' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.Batch" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.ID">ID wird verlangt.</small>
+                </div>
+
+                <div class="field">
+                    <label for="name">{{ 'object.borrowTime' | translate }}</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="item.LoanPeriod" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !item.ID">ID wird verlangt.</small>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="{{ 'header.cancel' | translate }}" icon="pi pi-times" class="p-button-text" (click)="hideEditDialog()"></button>
+                <button pButton pRipple label="{{ 'header.save' | translate }}" icon="pi pi-check" class="p-button-text" (click)="updateItem()"></button>
+            </ng-template>
+        </p-dialog>
+
+    </div>
+</div>

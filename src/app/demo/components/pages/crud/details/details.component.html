@@ -1,0 +1,154 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="my-2 d-flex justify-content-between align-items-center">
+            <p-button
+                pRipple
+                label="{{ 'header.back' | translate }}"
+                icon="pi pi-arrow-left"
+                severity="secondary"
+                class="p-button-secondary mr-2"
+                (click)="backClicked()"
+            ></p-button>
+        </div>
+        
+        <div class="card px-6 py-6">
+            <h4>
+                {{ "menu.objects" | translate }}: <b>{{ itemId }}</b>
+            </h4>
+            <p-toast></p-toast>
+            <!-- <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button
+                            pButton
+                            pRipple
+                            label="{{ 'header.edit' | translate }}"
+                            icon="pi pi-pencil"
+                            class="p-button-success mr-2"
+                            (click)="openNew()"
+                        ></button>
+                        <button pButton pRipple label="{{ 'header.delete' | translate }}" icon="pi pi-trash" class="p-button-danger" (click)="deleteItem()"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar> -->
+
+            <p-table [value]="items" >
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th >{{ 'object.keyNumber' | translate }} </th>
+                    <th >{{ 'object.street' | translate }} </th>
+                    <th>{{ 'object.name' | translate }}</th>
+                    <th>{{ 'controll.checkedTo' | translate }}</th>
+                    <th >{{ 'object.timestamp' | translate }} </th>
+                    <th >{{ 'object.borrowTime' | translate }} </th>
+                        <th></th>
+                 </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td style="width:12%; min-width:10rem;">
+                            <span class="p-column-title">ExaminationDate</span>
+                            {{item.ID}}
+                        </td>
+                        <td style="width:12%; min-width:10rem;">
+                            <span class="p-column-title">LastCheckedDate</span>
+                            {{item.Street + ' ' + item.HouseNumber}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;">
+                            <span class="p-column-title">Category</span>
+                            {{item.Name}}
+                        </td>
+                        <td style="width:24%; min-width:10rem;">
+                            <span class="p-column-title">Category</span>
+                            {{ getName(item) }}
+                        </td>
+                        <td style="width:39%; min-width:8rem;">
+                            <span class="p-column-title">Description</span>
+                            {{item.Timestamp}}
+                        </td>
+                        <td style="width:6%; min-width:10rem;">
+                            <span class="p-column-title">GroupName</span>
+                            {{item.LoanPeriod + " Stunden"  }}
+                        </td>
+                        <td >
+                            <div *ngIf="keyIsBorrowed" class="flex">
+                                <button pButton pRipple icon="pi pi-download" class="p-button-rounded p-button-success mr-2" (click)="returnKey()"></button>
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <p-dialog [(visible)]="productDialog" [style]="{width: '450px'}" header="{{ 'header.objects' | translate }}" [modal]="true" class="p-fluid">
+                <ng-template pTemplate="content">
+                    <!-- <img [src]="'assets/demo/images/product/' + product.image" [alt]="product.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" *ngIf="product.image"> -->
+                    <div class="field">
+                        <label for="name">{{ 'object.id' | translate }}</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="items.ID" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+
+                    </div>
+                    <div class="field">
+                        <label for="name">{{ 'object.keyNumber' | translate }}</label>
+                        <input type="text" pInputText id="keyNumber" [(ngModel)]="items.Number"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+                        
+                    </div>
+                    <div class="field">
+                        <label for="description">{{ 'object.place' | translate }}</label>
+                        <input type="text" pInputText id="fuhrerscheinnummer" [(ngModel)]="items.City"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+    
+                    </div>
+                    <div class="field">
+                        <label for="name">{{ 'object.street' | translate }}</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="items.Street"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+    
+                    </div>
+                    <div class="field">
+                        <label for="name">{{ 'object.streetNumber' | translate }}</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="items.HouseNumber"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+    
+                    </div>
+                    <div class="field">
+                        <label for="description">{{ 'object.details' | translate }}</label>
+                        <textarea id="einschrankungen" pInputTextarea [(ngModel)]="items.Misc"  rows="3" cols="20"></textarea>
+                    </div>
+    
+                    <div class="field">
+                        <label for="name">{{ 'object.name' | translate }}</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="items.Name"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+    
+                    </div>
+    
+                    <div class="field">
+                        <label for="name">{{ 'object.brand' | translate }}</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="items.Batch"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+    
+                    </div>
+    
+                    <div class="field">
+                        <label for="name">{{ 'object.borrowTime' | translate }}</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="items.LoanPeriod"  autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !product.name}"/>
+    
+                    </div>
+    
+                </ng-template>
+    
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple label="{{ 'header.cancel' | translate }}" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                    <button pButton pRipple label="{{ 'header.save' | translate }}" icon="pi pi-check" class="p-button-text" (click)="createItem()"></button>
+                </ng-template>
+            </p-dialog>
+    
+            <p-dialog [(visible)]="deleteProductDialog" header="{{ 'header.confirm' | translate }}" [modal]="true" [style]="{width:'450px'}">
+                <div class="flex align-items-center justify-content-center">
+                    <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                    <span *ngIf="item">{{ 'object.deleteQuestion' | translate }} <b>{{  item.ID  }}</b></span>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'header.no' | translate }}" (click)="deleteProductDialog = false"></button>
+                    <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'header.yes' | translate }}" (click)="confirmDelete()"></button>
+                </ng-template>
+            </p-dialog>
+        </div>
+    </div>
+</div>

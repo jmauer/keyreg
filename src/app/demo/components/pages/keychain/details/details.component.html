@@ -1,0 +1,189 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="my-2">
+            <p-button
+                pRipple
+                label="{{ 'header.back' | translate }}"
+                icon="pi pi-arrow-left"
+                severity="secondary"
+                class="p-button-secondary mr-2"
+                (click)="backClicked()"
+            ></p-button>
+        </div>
+        <div class="card px-6 py-6">
+            <h4>
+                {{ "object.keychain" | translate }}: <b>{{ itemId }}</b>
+            </h4>
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button
+                            pButton
+                            pRipple
+                            label="{{ 'header.add' | translate }}"
+                            icon="pi pi-plus"
+                            class="p-button-success mr-2"
+                            (click)="openNew()"
+                        ></button>
+                        <!-- <button pButton pRipple label="Löschen" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedProducts()" [disabled]="!selectedProducts || !selectedProducts.length"></button> -->
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <!-- <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload> -->
+                    <button
+                        pButton
+                        pRipple
+                        label="{{ 'header.export' | translate }}"
+                        icon="pi pi-download"
+                        class="p-button-help"
+                        (click)="downloadData()"
+                    ></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table
+                #mytable
+                [value]="keys"
+                [columns]="cols"
+                responsiveLayout="scroll"
+                [rows]="10"
+                [paginator]="true"
+                [rowsPerPageOptions]="[10, 20, 30]"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="{{
+                    'footer.showing' | translate
+                }} {first} {{ 'footer.to' | translate }} {last} {{
+                    'footer.of' | translate
+                }} {totalRecords} {{ 'footer.entries' | translate }}"
+                selectionMode="multiple"
+                [rowHover]="true"
+                dataKey="id"
+            >
+                <ng-template pTemplate="caption">
+                    <div
+                        class="flex flex-column md:flex-row md:justify-content-between md:align-items-center"
+                    >
+                        <h5 class="m-0">{{ "object.header" | translate }}</h5>
+                        <!-- <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Suchen..."  class="w-full sm:w-auto"/>
+                        </span> -->
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th> -->
+                       
+                        <th >{{ 'object.keyNumber' | translate }} </th>
+                        <!-- <th >{{ 'object.LastCheckedDate' | translate }} </th> -->
+                        <th>{{ 'object.place' | translate }}</th>
+                        <th >{{ 'object.street' | translate }} </th>
+                        <th >{{ 'object.name' | translate }} </th>
+
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <!-- <td>
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </td> -->
+                  <!-- <td>      <td style="width:14%; min-width:10rem;" [routerLink]="['/pages/crud/', item.ID]"><span class="p-column-title">ID</span>
+                            {{  item.ID  }}
+                        </td> </td> -->
+                        <td style="width:8%; min-width:7rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">ExaminationDate</span>
+                            
+                            {{item.Number}}
+                        </td>
+                        <td style="width:10%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">LastCheckedDate</span>
+                            {{item.City}}
+                        </td>
+                        <td style="width:36%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">Category</span>
+                            {{item.Street + ' ' + item.HouseNumber}}
+                        </td>
+                        <td style="width:20%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">GroupName</span>
+                            {{item.Name}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <p-dialog
+                [(visible)]="productDialog"
+                header="{{ 'header.edit' | translate }}"
+                [modal]="true"
+                [style]="{ width: '1000px' }"
+            >
+                <div class="flex align-items-center justify-content-center">
+                    <p-pickList
+                        [source]="notSelectedItems"
+                        [target]="keys"
+                        sourceHeader="Alle Schlüssel"
+                        targetHeader="Schlüssel im Bund"
+                        [dragdrop]="true"
+                        [responsive]="true"
+                        [sourceStyle]="{ height: '30rem' }"
+                        [targetStyle]="{ height: '30rem' }"
+                        filterBy="name"
+                        sourceFilterPlaceholder="Search by name"
+                        targetFilterPlaceholder="Search by name"
+                        breakpoint="800px"
+                    >
+                        <ng-template let-product pTemplate="item">
+                            <div
+                                class="flex flex-wrap p-2 align-items-center gap-3"
+                            >
+                                <div class="flex-1 flex flex-column gap-2">
+                                    <span class="font-bold">
+                                        <i class="pi pi-key text-sm"></i>
+                                        {{ product.Name }}
+                                    </span>
+                                    <div
+                                        class="flex align-products-center gap-2"
+                                    >
+                                        <span>
+                                            {{
+                                                product.Street +
+                                                    " " +
+                                                    product.HouseNumber
+                                            }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-pickList>
+                </div>
+                <ng-template pTemplate="footer">
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-times"
+                        class="p-button-text"
+                        label="{{ 'header.cancel' | translate }}"
+                        (click)="productDialog = false"
+                    ></button>
+                    <button
+                        pButton
+                        pRipple
+                        icon="pi pi-check"
+                        class="p-button-text"
+                        label="{{ 'header.confirm' | translate }}"
+                        (click)="setKeyToKeychain()"
+                    ></button>
+                </ng-template>
+            </p-dialog>
+        </div>
+    </div>
+</div>

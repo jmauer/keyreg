@@ -1,0 +1,55 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card">
+            <h4>{{ 'downloads.headerLogs' | translate }}</h4>
+            <div class="flex align-items-center p-3 w-full flex-wrap">
+                <div>
+                    <p-button class="mr-2" icon="pi pi-download" (click)="downloadData()"></p-button>
+                </div>
+                <div class="flex-1">
+                    <h5 class="mb-1 text-base">{{ 'downloads.logs' | translate }}</h5>
+                </div>
+            </div>
+              
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <h4>{{ 'downloads.headerDocuments' | translate }}</h4>
+            <p-virtualScroller [value]="items" scrollHeight="500px" [itemSize]="70">
+                <ng-template let-product pTemplate="item">
+                    <div class="flex align-items-center p-3 w-full flex-wrap" [ngClass]="{ 'surface-hover': product.index % 2 === 0 }">
+                        <div>
+                            <p-button class="mr-2" icon="pi pi-download" (click)="downloadFile(product.name)"></p-button>
+                        </div>
+                        <div class="flex-1">
+                            <h5 class="mb-1 text-base">{{ product.name }}</h5>
+                        </div>
+                    </div>
+                </ng-template>
+              </p-virtualScroller>
+              
+        </div>
+    </div>
+
+    <div class="col-12">
+        <div class="card">
+            <h4>{{ 'downloads.headerDowns' | translate }}</h4>
+            <p-virtualScroller [value]="downloadable" scrollHeight="500px" [itemSize]="70">
+                <ng-template let-product pTemplate="item">
+                    <div class="flex align-items-center p-3 w-full flex-wrap" [ngClass]="{ 'surface-hover': product.index % 2 === 0 }">
+                        <div>
+                            <p-button class="mr-2" icon="pi pi-download" (click)="downloadPDF(product)"></p-button>
+                        </div>
+                        <div class="flex-1">
+                            <h5 class="mb-1 text-base">{{ product }}</h5>
+                        </div>
+                    </div>
+                </ng-template>
+              </p-virtualScroller>
+              
+        </div>
+    </div>
+    
+</div>

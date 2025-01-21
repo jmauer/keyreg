@@ -1,0 +1,22 @@
+<div class="grid">
+    <p-toast></p-toast>
+    <div class="col-12">
+        <div class="card">
+            
+            <h4>{{  'contacts.header' | translate  }}</h4>
+            <p>{{  'contacts.subheadline' | translate  }}</p>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <h4>{{  'contacts.emailHeader' | translate  }}</h4>
+            <p-dropdown [options]="emails" [(ngModel)]="selectedEmail" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="{{ 'contacts.emailHeader' | translate }}" (onChange)="setEmail(selectedEmail.name)"></p-dropdown>
+            <!-- <h4>{{  'contacts.emailContext' | translate  }}</h4> -->
+            <span class="p-float-label mt-6">
+                <textarea id="float-input" [(ngModel)]="currentContext" rows="15" cols="130" pInputTextarea></textarea>
+                <label for="float-input">{{  'contacts.emailContext' | translate  }}</label>
+            </span>
+            <button pButton pRipple label="{{ 'contacts.send' | translate }}" icon="pi pi-send" class="p-button-help mt-4" (click)="sendEmail()"></button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,310 @@
+<div class="grid">
+    <p-toast></p-toast>
+    <div class="col-12">
+        <div class="card">
+                <h4>{{ 'controll.main' | translate }}</h4>
+                    <p>{{ 'controll.main-1' | translate }}</p>
+                    <p>{{ 'controll.main-2' | translate }}</p>
+        
+        </div>
+    </div> 
+
+    <div class="col-12 xl:col-6">
+        <div class="card">
+            <h5>{{ 'controll.checkIntervall' | translate }}</h5>
+            <div class="field"> 
+                <p-inputNumber [(ngModel)]="checkIntervall" inputId="minmax" mode="decimal" [min]="1" > </p-inputNumber>
+            </div>
+            
+            <p>{{ 'controll.checkIntervall-1' | translate }}</p>
+            <p>{{ 'controll.checkIntervall-2' | translate }}</p>
+
+            <button pButton pRipple label="{{ 'controll.confirm' | translate }}" icon="pi pi-check" class="p-button-success mr-2" (click)="setIntervall()"></button>
+        
+        </div>
+       
+    </div>
+
+    <div class="col-12 xl:col-6">
+        <div class="card">
+            <h5>{{ 'controll.header' | translate }}</h5>
+            <div class="field">
+
+                <input type="text" pInputText id="category" [(ngModel)]="itemID" placeholder="{{ 'controll.textField' | translate }}" required autofocus/>
+                
+
+
+            </div>
+
+            <p-dropdown 
+                    [options]="users"
+                    [(ngModel)]="selectedPerson"
+                    optionLabel="name"
+                    [filter]="true"
+                    filterBy="FirstName"
+                    [showClear]="true"
+                    placeholder="{{ 'header.user' | translate }}">
+                        <ng-template pTemplate="selectedItem" let-selectedOption>
+                            <div class="flex align-items-center gap-2">
+
+                                <div>{{ selectedOption.name }}</div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-country pTemplate="item">
+                            <div class="flex align-items-center gap-2">
+
+                                <div>{{ country.FirstName + ' ' + country.LastName }}</div>
+                            </div>
+                        </ng-template>
+                </p-dropdown>
+
+            <p>{{ 'controll.next' | translate }} {{  checkIntervall  }} {{ month }}</p>
+            <button pButton pRipple label="{{ 'controll.confirm' | translate }}" icon="pi pi-check" class="p-button-success mr-2" (click)="controllID()"></button>
+            <button pButton pRipple label="{{ 'controll.cancel' | translate }}" icon="pi pi-times" class="p-button-danger mr-2" (click)="cancelUpdate()"></button>            
+        </div>
+    </div>
+
+
+
+    <!-- <div class="col-12 xl:col-6">
+        <div class="card">
+            <h5>{{ 'UVV Prüfer' }}</h5>
+            <div class="field"> 
+                <p-dropdown [(ngModel)]="uvvLeiter" inputId="inventoryStatus" optionValue="label" [options]="selectUser" placeholder="Select" (onChange)="setUvvLeiter(uvvLeiter)">
+   
+                </p-dropdown>
+            </div>
+            
+            <p>{{ 'controll.checkIntervall-3' | translate }}</p>
+            <p>{{ 'controll.checkIntervall-4' | translate }}</p>
+        </div>
+       
+    </div>
+
+    <div class="col-12 xl:col-6">
+        <div class="card">
+            <h5>{{ 'UVV kontrollieren' }}</h5>
+            <div class="field">
+
+                <input type="text" pInputText id="category" [(ngModel)]="itemID" placeholder="{{ 'controll.textField' | translate }}" required autofocus/>
+                
+            </div>
+            <p>{{ 'controll.next' | translate }} {{  uvvLeiter  }} {{ month }}</p>
+            <button pButton pRipple label="{{ 'controll.confirm' | translate }}" icon="pi pi-check" class="p-button-success mr-2" (click)="controllID()"></button>
+            <button pButton pRipple label="{{ 'controll.cancel' | translate }}" icon="pi pi-times" class="p-button-danger mr-2" (click)="cancelUpdate()"></button> 
+        </div>
+       
+    </div> -->
+
+    <div *ngIf="!emptyKeys" class="col-12">
+        <div class="card">
+
+            <p-table #dt [value]="checkedItems" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="globalFilterFields" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="{{ 'footer.showing' | translate }} {first} {{ 'footer.to' | translate }} {last} {{ 'footer.of' | translate }} {totalRecords} {{ 'footer.entries' | translate }}" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">{{ 'controll.table-h' | translate }}</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter($event)" placeholder="Suchen..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <!-- <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th> -->
+                    
+                        <th >{{ 'object.keyNumber' | translate }} </th>
+                        <th >{{ 'object.street' | translate }} </th>
+                        <th>{{ 'object.name' | translate }}</th>
+                        <th>{{ 'menu.users' | translate }}</th>
+                        <th >{{ 'object.timestamp' | translate }} </th>
+                        <th >{{ 'object.borrowTime' | translate }} </th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td style="width:12%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">ExaminationDate</span>
+                            {{item.ID}}
+                        </td>
+                        <td style="width:12%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">LastCheckedDate</span>
+                            {{item.Street + ' ' + item.HouseNumber}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">Category</span>
+                            {{item.Name}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">Category</span>
+                            {{item.FirstName + " " + item.LastName}}
+                        </td>
+                        <td style="width:49%; min-width:8rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">Description</span>
+                            {{item.Timestamp}}
+                        </td>
+                        <td style="width:6%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/crud/', item.ID]">
+                            <span class="p-column-title">GroupName</span>
+                            {{item.LoanPeriod + " Stunden"  }}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-angle-double-down" class="p-button-rounded p-button-success mr-2" (click)="openDateDialog(item)"></button>
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                
+            </p-table>
+        </div>
+    </div>
+
+    <div class="col-12 xl:col-6">
+        <div class="card">
+            <h5>{{ 'controll.headerKeychain' | translate }}</h5>
+            <div class="field">
+
+                <input type="text" pInputText id="category" [(ngModel)]="itemID" placeholder="{{ 'controll.textField' | translate }}" required autofocus/>
+                
+            </div>
+
+                <p-dropdown 
+                    [options]="users"
+                    [(ngModel)]="selectedPerson"
+                    optionLabel="name"
+                    [filter]="true"
+                    filterBy="FirstName"
+                    [showClear]="true"
+                    placeholder="{{ 'header.user' | translate }}">
+                        <ng-template pTemplate="selectedItem" let-selectedOption>
+                            <div class="flex align-items-center gap-2">
+
+                                <div>{{ selectedOption.name }}</div>
+                            </div>
+                        </ng-template>
+                        <ng-template let-country pTemplate="item">
+                            <div class="flex align-items-center gap-2">
+
+                                <div>{{ country.FirstName + ' ' + country.LastName }}</div>
+                            </div>
+                        </ng-template>
+                </p-dropdown>
+
+            <p>{{ 'controll.next' | translate }} {{  checkIntervall  }} {{ month }}</p>
+            <button pButton pRipple label="{{ 'controll.confirm' | translate }}" icon="pi pi-check" class="p-button-success mr-2" (click)="controllKeychain()"></button>
+            <button pButton pRipple label="{{ 'controll.cancel' | translate }}" icon="pi pi-times" class="p-button-danger mr-2" (click)="cancelUpdate()"></button>            
+        </div>
+    </div>
+
+    <div *ngIf="!emptyKeychain" class="col-12 xl:col-6">
+        <div class="card">
+
+            <p-table #dd [value]="borrowedKeychains" [paginator]="true" [rows]="5" responsiveLayout="scroll" [rowHover]="true" [globalFilterFields]="globalKeychainFilterFields">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">{{ 'controll.table-h2' | translate }}</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="keychainGlobalFilter($event)" placeholder="Suchen..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th >{{ 'object.name' | translate }} </th>
+                        <th>{{ 'menu.users' | translate }}</th>
+                        <th >{{ 'object.timestamp' | translate }} </th>
+                <th >{{ 'object.borrowTime' | translate }} </th>
+                        <th></th>
+                 </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td style="width:14%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/keychain/', item.ID]">
+                            <span class="p-column-title">Category</span>
+                            {{item.Name}}
+                        </td>
+                        <td style="width:14%; min-width:10rem;" id="hover-item"
+                    [routerLink]="['/pages/keychain/', item.ID]">
+                        <span class="p-column-title">Category</span>
+                        {{item.User}}
+                    </td>
+                        <td style="width:49%; min-width:8rem;" id="hover-item"
+                        [routerLink]="['/pages/keychain/', item.ID]">
+                            <span class="p-column-title">Description</span>
+                            {{item.Timestamp}}
+                        </td>
+                        <td style="width:6%; min-width:10rem;" id="hover-item"
+                        [routerLink]="['/pages/keychain/', item.ID]">
+                            <span class="p-column-title">GroupName</span>
+                            {{item.LoanPeriod + " Stunden"  }}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-angle-double-down" class="p-button-rounded p-button-success mr-2" (click)="openDateKeychainDialog(item)"></button>
+
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+    <p-dialog [(visible)]="updateDateDialog" header="{{ 'header.confirm' | translate }}" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            <span *ngIf="item">{{ 'controll.confirm-question' | translate }} <b>{{  itemID  }}</b></span>
+        </div>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'header.no' | translate }}" (click)="updateDateDialog = false"></button>
+            <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'header.yes' | translate }}" (click)="returnKey()"></button>
+        </ng-template>
+    </p-dialog>
+
+
+    <p-dialog [(visible)]="updateDateKeychainDialog" header="{{ 'header.confirm' | translate }}" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            <span *ngIf="item">{{ 'controll.confirm-question' | translate }} <b>{{  itemID  }}</b></span>
+        </div>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'header.no' | translate }}" (click)="updateDateKeychainDialog = false"></button>
+            <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'header.yes' | translate }}" (click)="returnKeychain()"></button>
+        </ng-template>
+    </p-dialog>
+
+    <p-dialog [(visible)]="returnKeyDialog" header="{{ 'header.confirm' | translate }}" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            <span *ngIf="item">{{ 'controll.confirm-question' | translate }} <b>{{  itemID  }}</b></span>
+        </div>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'header.no' | translate }}" (click)="returnKeyDialog = false"></button>
+            <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'header.yes' | translate }}" (click)="returnKey()"></button>
+        </ng-template>
+    </p-dialog>
+
+
+    <p-dialog [(visible)]="returnKeychainDialog" header="{{ 'header.confirm' | translate }}" [modal]="true" [style]="{width:'450px'}">
+        <div class="flex align-items-center justify-content-center">
+            <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+            <span *ngIf="item">{{ 'controll.confirm-question' | translate }} <b>{{  itemID  }}</b></span>
+        </div>
+        <ng-template pTemplate="footer">
+            <button pButton pRipple icon="pi pi-times" class="p-button-text" label="{{ 'header.no' | translate }}" (click)="returnKeychainDialog = false"></button>
+            <button pButton pRipple icon="pi pi-check" class="p-button-text" label="{{ 'header.yes' | translate }}" (click)="returnKeychain()"></button>
+        </ng-template>
+    </p-dialog>
+</div>
