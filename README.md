@@ -1,6 +1,10 @@
-# Sakai
+# KeyReg
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
+
+## Usage
+
+This project is part of the `apollo` family
 
 ## Development server
 
