@@ -164,8 +164,6 @@ export class CrudComponent implements OnInit {
         Misc: item.Misc ?? ""
     };
 
-    console.log(payload)
-
       if (this.checkIfKeyExist(item.ID) == false) {  
 
           this.api.post('setIdToObject', payload)
@@ -228,7 +226,6 @@ export class CrudComponent implements OnInit {
 getAll() {
   this.api.get('getEverything')
     .subscribe((payload: any) => {
-    console.log(payload)
                   
   })
 
@@ -249,7 +246,7 @@ keyKeychain(key: Key): string {
 
   this.borrowedKeys.forEach(keychain => {
     if (key.ID == keychain.Keychain_ID) {
-      console.log(key.Number, keychain.Keychain_ID)
+      (key.Number, keychain.Keychain_ID)
     }})
 
   return " ";

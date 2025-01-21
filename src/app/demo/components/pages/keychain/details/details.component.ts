@@ -96,7 +96,6 @@ export class DetailsComponent implements OnInit {
     }
 
     setKeyToKeychainRequest(item: Key) {
-        console.log(this.selectedItems);
         const payload = {
             KeyID: item.ID,
             KeychainID: this.itemId,
@@ -191,7 +190,6 @@ export class DetailsComponent implements OnInit {
         const filteredKeys = allKeys.filter((key) =>
             this.filterSelectedItems(key, keychainKeys)
         );
-        console.log(filteredKeys)
         return filteredKeys;
     }
 
@@ -220,12 +218,11 @@ export class DetailsComponent implements OnInit {
     setKeyToKeychain() {
         var keysInKeychain = ""
 
-        console.log(this.selectedItems)
 
         this.keys.forEach((element) => {
-            console.log(element.ID)
+
             keysInKeychain = keysInKeychain + element.ID + ','
-            console.log(keysInKeychain)
+
         });
 
         const payload = {
